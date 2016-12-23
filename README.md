@@ -42,3 +42,32 @@ Subprojects
   tells the firewall to deny an IP.
 * openc2-orchestrator: This project is the ZeroMQ pub/sub relay. It
   simply receives messages to be broadcast and broadcasts them.
+
+Running OpenC2
+--------------
+
+First, you will want to read the README.md files in openc2-broadcast
+and openc2-edge. Configure openc2-edge by placing the configuration
+file at /usr/local/etc/openc2.conf.
+
+Second, ensure pf is running and configured with a blockedpeeps
+table. Make sure entries in the blockedpeeps table get blocked.
+Configuring pf itself is outside the scope of this document.
+
+Third, start up the orchestrator:
+
+```
+# daemon /usr/bin/orchestrator
+```
+
+Fourth, start up the edge service:
+
+```
+# daemon /usr/bin/edge -c /usr/local/etc/openc2.conf
+```
+
+Fifth, send an OpenC2 message to the orchestrator:
+
+```
+# openc2broadcast -s localhost -m 'JSONified OpenC2 message goes here'
+```
